@@ -1,0 +1,16 @@
+---
+
+libvirt_dependecies:
+  - dmidecode
+  - bridge-utils
+  - python-pip
+  - python-lxml
+
+libvirt_packages:
+  - libvirt
+  - libvirt-python
+
+libvirt_service:
+  name: libvirtd
+
+...

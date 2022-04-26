@@ -1,0 +1,30 @@
+---
+
+- name: restart libvirtd-tcp.socket
+  become: true
+  service:
+    name: libvirtd-tcp.socket
+    state: "{{ 'restarted' if libvirt_libvirtd.enable_tcp else 'stopped' }}"
+  when:
+    - libvirt_libvirtd.enable_tcp
+    - not ansible_check_mode
+
+- name: restart libvirtd-tls.socket
+  become: true
+  service:
+    name: libvirtd-tls.socket
+    state: "{{ 'restarted' if libvirt_libvirtd.enable_tls else 'stopped' }}"
+  when:
+    - libvirt_libvirtd.enable_tls
+    - not ansible_check_mode
+
+- name: restart libvirtd
+  become: true
+  service:
+    name: libvirtd
+    state: restarted
+    enabled: true
+  when:
+    - not ansible_check_mode
+
+...

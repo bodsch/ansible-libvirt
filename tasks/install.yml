@@ -1,0 +1,9 @@
+---
+
+- name: install kvm / libvirt
+  become: true
+  package:
+    name: "{{ libvirt_packages }}"
+    state: present
+  register: result
+  until: result is successful

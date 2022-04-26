@@ -1,0 +1,88 @@
+---
+
+- name: load all groups
+  getent:
+    database: group
+    split: ":"
+  check_mode: false
+
+- name: define unix_sock_group
+  set_fact:
+    libvirt_unix_sock_group: "{{
+      ('libvirtd' in getent_group) | ternary('libvirtd', 'libvirt') }}"
+  when:
+    - getent_group is defined
+    - "'libvirt' in getent_group or 'libvirtd' in getent_group"
+
+- name: create system libvirtd config
+  become: true
+  template:
+    src: etc/conf.d/libvirtd.j2
+    dest: /etc/conf.d/libvirtd
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+    backup: true
+  notify:
+    - restart {{ libvirt_service.name }}
+
+- name: create libvirtd.conf
+  become: true
+  template:
+    src: etc/libvirt/libvirtd.conf.j2
+    dest: /etc/libvirt/libvirtd.conf
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+    backup: true
+  notify:
+    - restart {{ libvirt_service.name }}
+
+- name: create libvirtd.conf
+  become: true
+  template:
+    src: etc/libvirt/qemu.conf.j2
+    dest: /etc/libvirt/qemu.conf
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
+    backup: true
+  notify:
+    - restart {{ libvirt_service.name }}
+
+- name: enable / disable libvirtd-tcp.socket
+  become: true
+  service:
+    name: libvirtd-tcp.socket
+    enabled: "{{ 'true' if libvirt_libvirtd.enable_tcp else 'false' }}"
+  notify:
+    - restart libvirtd-tcp.socket
+  when:
+    - not ansible_check_mode
+
+- name: enable / disable libvirtd-tls.socket
+  become: true
+  service:
+    name: libvirtd-tls.socket
+    enabled: "{{ 'true' if libvirt_libvirtd.enable_tls else 'false' }}"
+  notify:
+    - restart libvirtd-tls.socket
+  when:
+    - not ansible_check_mode
+
+- name: flush handlers
+  meta: flush_handlers
+
+- name: configure networks
+  include_tasks: configure/libvirt_networks.yml
+  when:
+    - libvirt_virtual_networks is defined
+    - libvirt_virtual_networks | count > 0
+
+- name: configure storage pools
+  include_tasks: configure/libvirt_storage_pools.yml
+  when:
+    - libvirt_storage_pools is defined
+    - libvirt_storage_pools | count > 0
+
+...

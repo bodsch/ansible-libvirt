@@ -1,0 +1,14 @@
+<pool type="dir">
+  <name>{{ item.name }}</name>
+{% if item.uuid|d() %}
+  <uuid>{{ item.uuid }}</uuid>
+{% endif %}
+  <capacity unit='bytes'>0</capacity>
+  <allocation unit='bytes'>0</allocation>
+  <available unit='bytes'>0</available>
+  <source></source>
+
+  <target>
+    <path>{{ item.path }}</path>
+  </target>
+</pool>

@@ -1,0 +1,59 @@
+
+# Use of TLS requires that x509 certificates be issued. The default is
+# to keep them in /etc/pki/qemu. This directory must contain
+#
+#  ca-cert.pem - the CA master certificate
+#  server-cert.pem - the server certificate signed with ca-cert.pem
+#  server-key.pem  - the server private key
+#
+# and optionally may contain
+#
+#  dh-params.pem - the DH params configuration file
+#
+# If the directory does not exist, libvirtd will fail to start. If the
+# directory doesn't contain the necessary files, QEMU domains will fail
+# to start if they are configured to use TLS.
+#
+# In order to overwrite the default path alter the following. This path
+# definition will be used as the default path for other *_tls_x509_cert_dir
+# configuration settings if their default path does not exist or is not
+# specifically set.
+#
+#default_tls_x509_cert_dir = "/etc/pki/qemu"
+
+
+# The default TLS configuration only uses certificates for the server
+# allowing the client to verify the server's identity and establish
+# an encrypted channel.
+#
+# It is possible to use x509 certificates for authentication too, by
+# issuing an x509 certificate to every client who needs to connect.
+#
+# Enabling this option will reject any client who does not have a
+# certificate signed by the CA in /etc/pki/qemu/ca-cert.pem
+#
+# The default_tls_x509_cert_dir directory must also contain
+#
+#  client-cert.pem - the client certificate signed with the ca-cert.pem
+#  client-key.pem - the client private key
+#
+# If this option is supplied it provides the default for the "_verify" option
+# of specific TLS users such as vnc, backups, migration, etc. The specific
+# users of TLS may override this by setting the specific "_verify" option.
+#
+# When not supplied the specific TLS users provide their own defaults.
+#
+#default_tls_x509_verify = 1
+
+#
+# Libvirt assumes the server-key.pem file is unencrypted by default.
+# To use an encrypted server-key.pem file, the password to decrypt
+# the PEM file is required. This can be provided by creating a secret
+# object in libvirt and then to uncomment this setting to set the UUID
+# of the secret.
+#
+# NB This default all-zeros UUID will not work. Replace it with the
+# output from the UUID for the TLS secret from a 'virsh secret-list'
+# command and then uncomment the entry
+#
+#default_tls_x509_secret_uuid = "00000000-0000-0000-0000-000000000000"

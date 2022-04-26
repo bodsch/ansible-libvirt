@@ -1,0 +1,8 @@
+---
+
+libvirt_packages:
+  - libvirt
+  - libvirt-python
+  # - qemu
+
+...

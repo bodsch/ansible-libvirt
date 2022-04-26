@@ -1,0 +1,12 @@
+#jinja2: trim_blocks: True, lstrip_blocks: True
+# {{ ansible_managed }}
+
+# {{ libvirt_qemu.security_drivers }}
+# {{ libvirt_qemu.security_drivers in [ "selinux", "apparmor" ] }}
+{% if libvirt_qemu.security_drivers is defined and
+      libvirt_qemu.security_drivers | count > 0 and
+      libvirt_qemu.security_drivers | lower in [ "selinux", "apparmor" ] %}
+security_driver           = [ "{{ libvirt_qemu.security_drivers | join('", "') }}" ]
+{% else %}
+security_driver           = "none"
+{% endif %}
