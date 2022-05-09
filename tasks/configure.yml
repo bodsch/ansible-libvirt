@@ -1,18 +1,18 @@
 ---
 
-- name: load all groups
-  getent:
-    database: group
-    split: ":"
-  check_mode: false
-
-- name: define unix_sock_group
-  set_fact:
-    libvirt_unix_sock_group: "{{
-      ('libvirtd' in getent_group) | ternary('libvirtd', 'libvirt') }}"
-  when:
-    - getent_group is defined
-    - "'libvirt' in getent_group or 'libvirtd' in getent_group"
+# - name: load all groups
+#   getent:
+#     database: group
+#     split: ":"
+#   check_mode: false
+#
+# - name: define unix_sock_group
+#   set_fact:
+#     libvirt_unix_sock_group: "{{
+#       ('libvirtd' in getent_group) | ternary('libvirtd', 'libvirt') }}"
+#   when:
+#     - getent_group is defined
+#     - "'libvirt' in getent_group or 'libvirtd' in getent_group"
 
 - name: create system libvirtd config
   become: true

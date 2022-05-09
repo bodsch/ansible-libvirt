@@ -5,6 +5,9 @@
     mode: u=rwx,g=rx,o=rx
     path: "{{ item.path }}"
     state: directory
+  when:
+    - item.state is defined
+    - not item.state | default("") == "absent"
   loop: "{{ libvirt_storage_pools }}"
   loop_control:
     label: "{{ item.path }}"
@@ -25,7 +28,8 @@
   virt_pool:
     name: "{{ item.name }}"
     state: "{{ item.state }}"
-  when: item.state is defined
+  when:
+    - item.state is defined
   loop: "{{ libvirt_storage_pools }}"
   loop_control:
     label: "{{ item.name }} - state {{ item.state }}"
@@ -41,9 +45,9 @@
     - (item.state | default("")) == "active"
   loop: "{{ libvirt_storage_pools }}"
   loop_control:
-    label: "{{ item.name }} - autostart {{ item.autostart }}"
+    label: "{{ item.name }} - state: {{ item.state }}, autostart: {{ item.autostart }}"
 
-- name: setting storage pools to not autostart
+- name: remove storage pool from autostart
   virt_pool:
     autostart: false
     name: "{{ item.name }}"
@@ -53,6 +57,6 @@
     - not item.autostart
   loop: "{{ libvirt_storage_pools }}"
   loop_control:
-    label: "{{ item.name }} - autostart {{ item.autostart }}"
+    label: "{{ item.name }} - state: {{ item.state }}, autostart: {{ item.autostart }}"
 
 ...
