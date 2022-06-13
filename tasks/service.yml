@@ -1,1 +1,10 @@
- 
+---
+
+- name: ensure libvirtd is enabled on boot
+  become: true
+  service:
+    name: "{{ libvirt_service.name }}"
+    enabled: true
+    state: started
+
+...

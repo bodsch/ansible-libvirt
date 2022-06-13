@@ -51,7 +51,6 @@
     - libvirt_dependecies is defined
     - libvirt_dependecies | count > 0
 
-
 - name: merge libvirtd config configuration between defaults and custom
   set_fact:
     libvirt_libvirtd: "{{ libvirt_defaults_libvirtd |

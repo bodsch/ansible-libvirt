@@ -9,4 +9,6 @@ libvirt_packages:
   - libvirt-openrc
   - libvirt-python
 
+libvirt_sysconf_directory: "/etc/conf.d"
+
 ...

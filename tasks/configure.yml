@@ -14,11 +14,17 @@
 #     - getent_group is defined
 #     - "'libvirt' in getent_group or 'libvirtd' in getent_group"
 
+- name: create sysconf directory
+  file:
+    state: directory
+    path: "{{ libvirt_sysconf_directory }}"
+    mode: u=rw,g=r,o=r
+
 - name: create system libvirtd config
   become: true
   template:
-    src: etc/conf.d/libvirtd.j2
-    dest: /etc/conf.d/libvirtd
+    src: "{{ libvirt_sysconf_directory[1:] }}/libvirtd.j2"
+    dest: "{{ libvirt_sysconf_directory }}/libvirtd"
     owner: root
     group: root
     mode: u=rw,g=r,o=r

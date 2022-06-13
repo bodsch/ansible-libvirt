@@ -8,9 +8,12 @@ libvirt_dependecies:
 
 libvirt_packages:
   - libvirt
+  - libvirt-dbus
   - libvirt-python
 
 libvirt_service:
   name: libvirtd
+
+libvirt_sysconf_directory: "/etc/conf.d"
 
 ...

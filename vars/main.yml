@@ -8,6 +8,8 @@ libvirt_packages:
 libvirt_service:
   name: libvirtd
 
+libvirt_sysconf_directory: "/etc/default"
+
 libvirt_defaults_libvirtd:
   # - network
   enable_tls: false
@@ -111,7 +113,6 @@ libvirt_defaults_libvirtd:
   admin_keepalive_count: ""       # 5
   # - Open vSwitch
   ovs_timeout: ""                 # 5
-
 
 libvirt_defaults_qemu:
 # The default security driver is SELinux. If SELinux is disabled

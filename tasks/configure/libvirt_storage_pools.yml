@@ -1,4 +1,5 @@
 ---
+
 - name: ensure storage pool paths exist
   become: true
   file:
