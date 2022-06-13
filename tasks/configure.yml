@@ -61,20 +61,28 @@
   service:
     name: libvirtd-tcp.socket
     enabled: "{{ 'true' if libvirt_libvirtd.enable_tcp else 'false' }}"
+  ignore_errors: true
   notify:
     - restart libvirtd-tcp.socket
   when:
     - not ansible_check_mode
+    - ansible_service_mgr | lower == "systemd"
+    # - ansible_distribution | lower == "debian"
+    # - not ansible_distribution_major_version == 10
 
 - name: enable / disable libvirtd-tls.socket
   become: true
   service:
     name: libvirtd-tls.socket
     enabled: "{{ 'true' if libvirt_libvirtd.enable_tls else 'false' }}"
+  ignore_errors: true
   notify:
     - restart libvirtd-tls.socket
   when:
     - not ansible_check_mode
+    - ansible_service_mgr | lower == "systemd"
+    # - ansible_distribution | lower == "debian"
+    # - not ansible_distribution_major_version == 10
 
 - name: flush handlers
   meta: flush_handlers
