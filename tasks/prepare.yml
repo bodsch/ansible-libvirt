@@ -47,9 +47,16 @@
   package:
     name: "{{ libvirt_dependecies }}"
     state: present
+  register: _dependencies
   when:
     - libvirt_dependecies is defined
     - libvirt_dependecies | count > 0
+
+- name: update facts to get latest information
+  setup:
+  when:
+    - _dependencies is defined
+    - _dependencies.changed
 
 - name: merge libvirtd config configuration between defaults and custom
   set_fact:
