@@ -2,7 +2,7 @@
 
 - name: ensure storage pool paths exist
   become: true
-  file:
+  ansible.builtin.file:
     mode: u=rwx,g=rx,o=rx
     path: "{{ item.path }}"
     state: directory
@@ -15,7 +15,7 @@
 
 - name: defining storage pools
   become: true
-  virt_pool:
+  community.libvirt.virt_pool:
     command: define
     name: "{{ item.name }}"
     xml: "{{ lookup('template', 'etc/libvirt/storage/pool.xml.j2') }}"
@@ -26,7 +26,7 @@
 
 - name: setting state of storage pools
   become: true
-  virt_pool:
+  community.libvirt.virt_pool:
     name: "{{ item.name }}"
     state: "{{ item.state }}"
   when:
@@ -36,7 +36,7 @@
     label: "{{ item.name }} - state {{ item.state }}"
 
 - name: setting storage pools to autostart
-  virt_pool:
+  community.libvirt.virt_pool:
     autostart: true
     name: "{{ item.name }}"
   become: true
@@ -49,7 +49,7 @@
     label: "{{ item.name }} - state: {{ item.state }}, autostart: {{ item.autostart }}"
 
 - name: remove storage pool from autostart
-  virt_pool:
+  community.libvirt.virt_pool:
     autostart: false
     name: "{{ item.name }}"
   become: true

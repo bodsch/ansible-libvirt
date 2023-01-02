@@ -5,14 +5,15 @@ This role configures a host as a [Libvirt/KVM](https://libvirt.org) hypervisor.
 
 It can also configure storage pools and networks on the host.
 
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/bodsch/ansible-libvirt/CI)][ci]
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/bodsch/ansible-libvirt/main.yml?branch=main)][ci]
 [![GitHub issues](https://img.shields.io/github/issues/bodsch/ansible-libvirt)][issues]
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/bodsch/ansible-libvirt)][releases]
+[![Ansible Quality Score](https://img.shields.io/ansible/quality/50067?label=role%20quality)][quality]
 
 [ci]: https://github.com/bodsch/ansible-libvirt/actions
 [issues]: https://github.com/bodsch/ansible-libvirt/issues?q=is%3Aopen+is%3Aissue
 [releases]: https://github.com/bodsch/ansible-libvirt/releases
-
+[quality]: https://galaxy.ansible.com/bodsch/libvirt
 
 
 ## Supported (tested) Operating systems
@@ -33,7 +34,7 @@ Please read [Contribution](CONTRIBUTING.md)
 
 The `master` Branch is my *Working Horse* includes the "latest, hot shit" and can be complete broken!
 
-If you want to use something stable, please use a [Tagged Version](https://github.com/bodsch/ansible-prometheus/tags)!
+If you want to use something stable, please use a [Tagged Version](https://github.com/bodsch/ansible-libvirt/tags)!
 
 
 ## Configuration

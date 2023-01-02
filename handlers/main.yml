@@ -2,7 +2,7 @@
 
 - name: restart libvirtd-tcp.socket
   become: true
-  service:
+  ansible.builtin.service:
     name: libvirtd-tcp.socket
     state: "{{ 'restarted' if libvirt_libvirtd.enable_tcp else 'stopped' }}"
   when:
@@ -11,7 +11,7 @@
 
 - name: restart libvirtd-tls.socket
   become: true
-  service:
+  ansible.builtin.service:
     name: libvirtd-tls.socket
     state: "{{ 'restarted' if libvirt_libvirtd.enable_tls else 'stopped' }}"
   when:
@@ -20,7 +20,7 @@
 
 - name: restart libvirtd
   become: true
-  service:
+  ansible.builtin.service:
     name: libvirtd
     state: restarted
     enabled: true

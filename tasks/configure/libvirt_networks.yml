@@ -2,7 +2,7 @@
 
 - name: define virtual networks
   become: true
-  virt_net:
+  community.libvirt.virt_net:
     command: define
     name: "{{ item.name }}"
     xml: "{{ lookup('template', 'etc/libvirt/qemu/networks/network.xml.j2') }}"
@@ -15,7 +15,7 @@
 
 - name: setting state of virtual networks
   become: true
-  virt_net:
+  community.libvirt.virt_net:
     name: "{{ item.name }}"
     state: "{{ item.state }}"
   when:
@@ -26,7 +26,7 @@
 
 - name: setting virtual networks to autostart
   become: true
-  virt_net:
+  community.libvirt.virt_net:
     autostart: true
     name: "{{ item.name }}"
   when:
@@ -39,7 +39,7 @@
 
 - name: remove virtual network from autostart
   become: true
-  virt_net:
+  community.libvirt.virt_net:
     autostart: false
     name: "{{ item.name }}"
   when:

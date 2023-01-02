@@ -1,7 +1,7 @@
 ---
 
 - name: include OS specific configuration ({{ ansible_distribution }} ({{ ansible_os_family }}) {{ ansible_distribution_major_version }})
-  include_vars: "{{ lookup('first_found', params) }}"
+  ansible.builtin.include_vars: "{{ lookup('first_found', params) }}"
   vars:
     params:
       paths:
@@ -19,24 +19,24 @@
       skip: true
 
 - name: update package cache
-  package:
+  ansible.builtin.package:
     update_cache: true
 
 - name: load cpu info
   become: true
-  slurp:
+  ansible.builtin.slurp:
     src: /proc/cpuinfo
   register: cpu_info
 
 - name: identify hardware virtualization support
-  set_fact:
+  ansible.builtin.set_fact:
     libvirt_domain_type: "{{
       cpu_info['content'] | b64decode |
       regex_search('(vmx|svm)', multiline=True) |
       ternary('kvm', 'qemu') }}"
 
 - name: fail if Virtualization Technology (VT) is not kvm or qemu
-  fail:
+  ansible.builtin.fail:
     msg: >
       Virtualization Technology (VT) is currently disabled.
       Please enable VT before running this role again.
@@ -44,7 +44,7 @@
     - not libvirt_domain_type in ["kvm","qemu"]
 
 - name: install dependency
-  package:
+  ansible.builtin.package:
     name: "{{ libvirt_dependecies }}"
     state: present
   register: _dependencies
@@ -53,19 +53,14 @@
     - libvirt_dependecies | count > 0
 
 - name: update facts to get latest information
-  setup:
+  ansible.builtin.setup:
   when:
     - _dependencies is defined
     - _dependencies.changed
 
-- name: merge libvirtd config configuration between defaults and custom
-  set_fact:
-    libvirt_libvirtd: "{{ libvirt_defaults_libvirtd |
-      combine( libvirt_libvirtd, recursive=True ) }}"
-
-- name: merge qemu config configuration between defaults and custom
-  set_fact:
-    libvirt_qemu: "{{ libvirt_defaults_qemu |
-      combine( libvirt_qemu, recursive=True ) }}"
+- name: merge libvirt config configuration between defaults and custom
+  ansible.builtin.set_fact:
+    libvirt_libvirtd: "{{ libvirt_defaults_libvirtd | combine(libvirt_libvirtd, recursive=True) }}"
+    libvirt_qemu: "{{ libvirt_defaults_qemu | combine(libvirt_qemu, recursive=True) }}"
 
 ...

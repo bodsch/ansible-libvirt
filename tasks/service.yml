@@ -2,7 +2,7 @@
 
 - name: ensure libvirtd is enabled on boot
   become: true
-  service:
+  ansible.builtin.service:
     name: "{{ libvirt_service.name }}"
     enabled: true
     state: started
