@@ -1,12 +1,15 @@
 #jinja2: trim_blocks: True, lstrip_blocks: True
 # {{ ansible_managed }}
 
-# {{ libvirt_qemu.security_drivers }}
-# {{ libvirt_qemu.security_drivers in [ "selinux", "apparmor" ] }}
-{% if libvirt_qemu.security_drivers is defined and
-      libvirt_qemu.security_drivers | count > 0 and
-      libvirt_qemu.security_drivers | lower in [ "selinux", "apparmor" ] %}
-security_driver           = [ "{{ libvirt_qemu.security_drivers | join('", "') }}" ]
-{% else %}
-security_driver           = "none"
-{% endif %}
+{% include('qemu.d/default.j2') %}
+{% include('qemu.d/vnc.j2') %}
+{% include('qemu.d/spice.j2') %}
+{% include('qemu.d/chardev.j2') %}
+{% include('qemu.d/vxhs.j2') %}
+{% include('qemu.d/nbd.j2') %}
+{% include('qemu.d/migrate.j2') %}
+{% include('qemu.d/backup.j2') %}
+{% include('qemu.d/nographics.j2') %}
+{% include('qemu.d/remote.j2') %}
+{% include('qemu.d/security.j2') %}
+{% include('qemu.d/cgroup.j2') %}

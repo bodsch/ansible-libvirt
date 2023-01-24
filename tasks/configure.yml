@@ -73,6 +73,12 @@
 - name: flush handlers
   ansible.builtin.meta: flush_handlers
 
+- name: wait for running libvirtd
+  ansible.builtin.wait_for:
+    path: /run/libvirtd.pid
+    state: present
+    msg: Timeout to find file /run/libvirtd.pid
+
 - name: configure networks
   ansible.builtin.include_tasks: configure/libvirt_networks.yml
   when:
