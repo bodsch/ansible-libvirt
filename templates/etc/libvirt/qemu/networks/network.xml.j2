@@ -36,24 +36,24 @@
   </ip>
 {% endif %}
 {% if item['vlans'] is defined %}
-{%   for vl in item['vlans'] %}
+  {% for vl in item['vlans'] %}
   <portgroup name='{{ vl['name'] }}'{{ vl['default'] | default(false) | ternary(" default='yes'", "") }}>
-{%     if vl['trunk'] is undefined and vl['default'] | default(false) %}
+    {% if vl['trunk'] is undefined and vl['default'] | default(false) %}
   </portgroup>
-{%     elif not vl['trunk'] %}
+    {% elif not vl['trunk'] %}
     <vlan>
       <tag id='{{ vl['vlan'] }}'/>
     </vlan>
   </portgroup>
-{%     elif vl['trunk'] %}
+    {% elif vl['trunk'] %}
     <vlan trunk='yes'>
-{%       for vlt in vl['vlan'] %}
+      {% for vlt in vl['vlan'] %}
       <tag id='{{ vlt }}'/>
-{%       endfor %}
+      {% endfor %}
     </vlan>
   </portgroup>
-{%     endif %}
-{%   endfor %}
+    {% endif %}
+  {% endfor %}
 {% endif %}
 {% if item['vlan'] is defined %}
   <vlan>
