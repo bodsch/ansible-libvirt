@@ -72,21 +72,21 @@ libvirt_libvirtd:
   #   - polkit
   auth_unix_ro: ""
   auth_unix_rw: ""
-  # auth_tcp = "sasl"
-  # auth_tls = "none"
-  # tcp_min_ssf = 112
-  # access_drivers = [ "polkit" ]
+  # auth_tcp: "sasl"
+  # auth_tls: "none"
+  # tcp_min_ssf: 112
+  # access_drivers: [ "polkit" ]
   # - TLS x509 certificate configuration
-  # key_file = "/etc/pki/libvirt/private/serverkey.pem"
-  # cert_file = "/etc/pki/libvirt/servercert.pem"
-  # ca_file = "/etc/pki/CA/cacert.pem"
-  # crl_file = "/etc/pki/CA/crl.pem"
+  # key_file: "/etc/pki/libvirt/private/serverkey.pem"
+  # cert_file: "/etc/pki/libvirt/servercert.pem"
+  # ca_file: "/etc/pki/CA/cacert.pem"
+  # crl_file: "/etc/pki/CA/crl.pem"
   # - Authorization controls
-  # tls_no_sanity_certificate = 1
-  # tls_no_verify_certificate = 1
-  # tls_allowed_dn_list = ["DN1", "DN2"]
+  # tls_no_sanity_certificate: 1
+  # tls_no_verify_certificate: 1
+  # tls_allowed_dn_list: ["DN1", "DN2"]
   # tls_priority="NORMAL"
-  # sasl_allowed_username_list = ["joe@EXAMPLE.COM", "fred@EXAMPLE.COM" ]
+  # sasl_allowed_username_list: ["joe@EXAMPLE.COM", "fred@EXAMPLE.COM" ]
   # - Processing controls
   max_clients: 5000              # 5000
   max_queued_clients: 1000       # 1000
@@ -107,10 +107,17 @@ libvirt_libvirtd:
   #    3: WARNING
   #    4: ERROR
   log_level: 3
-  log_filters: []
-  #   - 3:remote
-  #   - 4:event
-  #   - 4:json
+  log_filters:
+    - 3:remote
+    - 4:event
+    - 3:util.json
+    - 3:util.object
+    - 3:util.dbus
+    - 3:util.netlink
+    - 3:node_device
+    - 3:rpc
+    - 3:access
+    - 1:*
   # ="1:qemu 1:libvirt 4:object 4:json 4:event 1:util"
   # Logging outputs:
   # An output is one of the places to save logging information
@@ -128,24 +135,19 @@ libvirt_libvirtd:
   #    2: INFO
   #    3: WARNING
   #    4: ERROR
-  log_outputs: []
-  #   - "3:syslog:libvirtd"
-  #   - "4:livirtd.log:/var/log/libvirt"
-  #   - "3:syslog:libvirtd"
+  log_outputs:
+    - 2:file:/var/log/libvirt/libvirtd.log
+    - 3:journald
   # - auditing                    #
   #   audit_level == 0  -> disable all auditing
   #   audit_level == 1  -> enable auditing, only if enabled on host (default)
   #   audit_level == 2  -> enable auditing, and exit if disabled on host
   #
   audit_level: 1
-  #
-  # If set to 1, then audit messages will also be sent
-  # via libvirt logging infrastructure. Defaults to 0
-  #
   audit_logging: false
   # - UUID of the host
-  # host_uuid = "00000000-0000-0000-0000-000000000000"
-  # host_uuid_source = "smbios"
+  # host_uuid: "00000000-0000-0000-0000-000000000000"
+  # host_uuid_source: "smbios"
   # - Keepalive protocol          #
   keepalive_interval: ""          # 5
   keepalive_count: ""             # 5
@@ -157,27 +159,110 @@ libvirt_libvirtd:
 
 ### `libvirt_qemu`
 
-The default security driver is SELinux.
-If SELinux is disabled on the host, then the security driver will automatically disable itself.
-If you wish to disable QEMU SELinux security driver while leaving SELinux enabled for the host in general,
-then set this to `none` instead.
-It's also possible to use more than one security driver at the same time, for this use a list of names:
-
-```yaml
-  security_driver:
-    - selinux
-    - apparmor
-```
-
-Notes: The DAC security driver is always enabled; as a result, the value of `security_driver` cannot
-contain "dac".
-The value `none` is a special value; security_driver can be set to that value in isolation, but it cannot appear in a list of drivers.
+#### `default`
 
 ```yaml
 libvirt_qemu:
-  security_drivers:
-    - apparmor
+  default:
+    # tls_x509_cert_dir: "/etc/pki/qemu"
+    # tls_x509_verify: 1
+    # tls_x509_secret_uuid: "00000000-0000-0000-0000-000000000000"
 ```
+
+#### `vnc`
+
+```yaml
+libvirt_qemu:
+  vnc:
+    listen: "127.0.0.1"
+    auto_unix_socket: true
+    tls: false
+    # tls_x509_cert_dir: "/etc/pki/libvirt-vnc"
+    # tls_x509_secret_uuid: "00000000-0000-0000-0000-000000000000"
+    # tls_x509_verify: true
+    # password: "XYZ12345"
+    # sasl: true
+    # sasl_dir: "/some/directory/sasl2"
+    # allow_host_audio: false
+```
+
+#### `spice`
+
+```yaml
+libvirt_qemu:
+  spice:
+    tls: false
+    # tls_x509_cert_dir: "/etc/pki/libvirt-spice"
+    # auto_unix_socket: 1
+    # password: "XYZ12345"
+    # sasl: 1
+    # sasl_dir: "/some/directory/sasl2"
+```
+
+#### `cgroup`
+
+```yaml
+libvirt_qemu:
+  cgroup:
+    controllers: []
+      # - cpu
+      # - devices
+      # - memory
+      # - blkio
+      # - cpuset
+      # - cpuacct
+    device_acl: []
+      # - "/dev/null"
+      # - "/dev/full"
+      # - "/dev/zero"
+      # - "/dev/random"
+      # - "/dev/urandom"
+      # - "/dev/ptmx"
+      # - "/dev/kvm"
+```
+
+#### `security`
+
+```yaml
+libvirt_qemu:
+  security:
+    drivers: []
+    default_confined: false
+    require_confined: false
+```
+
+> Notes: The DAC security driver is always enabled; as a result, the value of `security.driver` cannot contain "dac".
+> The value `none` is a special value; `security.driver` can be set to that value in isolation, but it cannot appear in a list of drivers.
+
+The default security driver is SELinux.  
+If SELinux is disabled on the host, then the security driver will automatically disable itself.  
+If you wish to disable QEMU SELinux security driver while leaving SELinux enabled for the host in general, then set this to `none` instead.  
+
+It's also possible to use more than one security driver at the same time, for this use a list of names:
+
+```yaml
+libvirt_qemu:
+  security:
+    driver:
+      - selinux
+      - apparmor
+```
+
+```yaml
+libvirt_qemu:
+  security:
+    drivers:
+      - apparmor
+```
+
+To deactivate the security driver, only an empty list must be defined.
+
+```yaml
+libvirt_qemu:
+  security:
+    drivers: []
+```
+
 
 ### `libvirt_virtual_networks`
 

@@ -42,9 +42,11 @@
   community.libvirt.virt_net:
     autostart: false
     name: "{{ item.name }}"
+  failed_when: false
   when:
     - item.autostart is defined
-    - not item.autostart
+    - not item.autostart or
+      item.state | default("") in ["inactive","absent"]
   loop: "{{ libvirt_virtual_networks }}"
   loop_control:
     label: "{{ item.name }} - state: {{ item.state }}, autostart: {{ item.autostart }}"
