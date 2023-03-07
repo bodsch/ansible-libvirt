@@ -96,7 +96,7 @@ libvirt_libvirtd:
   prio_workers: 5                # 5
   max_requests: ""               # ?
   max_client_requests: 5         # 5
-  admin_min_workers: 1           # 1
+  admin_min_workers: 1           # true
   admin_max_workers: 5           # 5
   admin_max_clients: 5           # 5
   admin_max_queued_clients: 5    # 5
@@ -263,6 +263,118 @@ libvirt_qemu:
     drivers: []
 ```
 
+All possible configuration options:
+
+```yaml
+libvirt_defaults_qemu:
+  default:
+    tls_x509_cert_dir: ""       # "/etc/pki/qemu"
+    tls_x509_verify: ""         #  1
+    tls_x509_secret_uuid: ""    # "00000000-0000-0000-0000-000000000000"
+
+  auto:
+    dump_path: "/var/lib/libvirt/qemu/dump"
+    dump_bypass_cache: false
+    start_bypass_cache: false
+
+  backup:
+    tls_x509_cert_dir: ""       # "/etc/pki/libvirt-backup"
+    tls_x509_verify: ""         # true
+    tls_x509_secret_uuid: ""    # "00000000-0000-0000-0000-000000000000"
+
+  cgroup:
+    controllers: []
+      # - cpu
+      # - devices
+      # - memory
+      # - blkio
+      # - cpuset
+      # - cpuacct
+    device_acl: []
+      # - "/dev/null"
+      # - "/dev/full"
+      # - "/dev/zero"
+      # - "/dev/random"
+      # - "/dev/urandom"
+      # - "/dev/ptmx"
+      # - "/dev/kvm"
+
+  chardev:
+    tls: ""                   # true
+    tls_x509_cert_dir: ""     # "/etc/pki/libvirt-chardev"
+    tls_x509_verify: ""       # true
+    tls_x509_secret_uuid: ""  # "00000000-0000-0000-0000-000000000000"
+
+  migrate:
+    tls_x509_cert_dir: ""     # "/etc/pki/libvirt-migrate"
+    tls_x509_verify: ""       # true
+    tls_x509_secret_uuid: ""  # "00000000-0000-0000-0000-000000000000"
+    tls_force: ""             # false
+
+  migration:
+    address: "0.0.0.0"
+    host: ""                  # "host.example.com"
+    port_min: ""              # 49152
+    port_max: ""              # 49215
+
+  nbd:
+    tls: ""                   # true
+    tls_x509_cert_dir: ""     # "/etc/pki/libvirt-nbd"
+    tls_x509_secret_uuid: ""  # "00000000-0000-0000-0000-000000000000"
+
+  nographics:
+    allow_host_audio: true
+
+  remote:
+    display_port_min: 5900
+    display_port_max: 65535
+    websocket_port_min: 5700
+    websocket_port_max: 65535
+
+  security:
+    drivers: []
+    #  - selinux
+    #  - apparmor
+    default_confined: false
+    require_confined: false
+
+  spice:
+    listen: "0.0.0.0"
+    tls: false
+    tls_x509_cert_dir: ""     # "/etc/pki/libvirt-spice"
+    auto_unix_socket: ""      # true
+    password: ""              # "XYZ12345"
+    sasl: ""                  # true
+    sasl_dir: ""              # "/some/directory/sasl2"
+
+  vnc:
+    listen: "127.0.0.1"
+    auto_unix_socket: true
+    tls: false
+    tls_x509_cert_dir: ""     # "/etc/pki/libvirt-vnc"
+    tls_x509_secret_uuid: ""  # "00000000-0000-0000-0000-000000000000"
+    tls_x509_verify: ""       # true
+    password: ""              # "XYZ12345"
+    sasl: ""                  # true
+    sasl_dir: ""              # "/some/directory/sasl2"
+    allow_host_audio: ""      # false
+
+  vxhs:
+    tls: ""                   # true
+    tls_x509_cert_dir: ""     # "/etc/pki/libvirt-vxhs"
+    tls_x509_secret_uuid: ""  # "00000000-0000-0000-0000-000000000000"
+
+  system:
+    user: "root"
+    group: "root"
+    dynamic_ownership: true
+    remember_owner: true
+
+  image_format:
+    save_image_format: ""     # "raw"
+    dump_image_format: ""     # "raw"
+    snapshot_image_format: "" # "raw"
+```
 
 ### `libvirt_virtual_networks`
 
@@ -306,5 +418,4 @@ libvirt_storage_pools:
 
 [Apache](LICENSE)
 
-`FREE SOFTWARE, HELL YEAH!`
-
+**FREE SOFTWARE, HELL YEAH!**

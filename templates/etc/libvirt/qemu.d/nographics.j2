@@ -1,4 +1,11 @@
 
+{% if libvirt_qemu.nographics is defined and
+      libvirt_qemu.nographics | count > 0 %}
+  {% if libvirt_qemu.nographics.allow_host_audio is defined and
+        libvirt_qemu.nographics.allow_host_audio | string | length > 0 %}
+nographics_allow_host_audio     = {{ libvirt_qemu.nographics.allow_host_audio | bool | ternary('1', '0') }}
+  {% endif %}
+{% endif %}
 {#
 # By default, if no graphical front end is configured, libvirt will disable
 # QEMU audio output since directly talking to alsa/pulseaudio may not work

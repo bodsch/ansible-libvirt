@@ -1,4 +1,23 @@
 
+{% if libvirt_qemu.remote is defined and
+      libvirt_qemu.remote | count > 0 %}
+  {% if libvirt_qemu.remote.display_port_min is defined and
+        libvirt_qemu.remote.display_port_min | string | length > 0 %}
+remote_display_port_min       = {{ libvirt_qemu.remote.display_port_min }}
+  {% endif %}
+  {% if libvirt_qemu.remote.display_port_max is defined and
+        libvirt_qemu.remote.display_port_max | string | length > 0 %}
+remote_display_port_max       = {{ libvirt_qemu.remote.display_port_max }}
+  {% endif %}
+  {% if libvirt_qemu.remote.websocket_port_min is defined and
+        libvirt_qemu.remote.websocket_port_min | string | length > 0 %}
+remote_websocket_port_min     = {{ libvirt_qemu.remote.websocket_port_min }}
+  {% endif %}
+  {% if libvirt_qemu.remote.websocket_port_max is defined and
+        libvirt_qemu.remote.websocket_port_max | string | length > 0 %}
+remote_websocket_port_max     = {{ libvirt_qemu.remote.websocket_port_max }}
+  {% endif %}
+{% endif %}
 {#
 # Override the port for creating both VNC and SPICE sessions (min).
 # This defaults to 5900 and increases for consecutive sessions

@@ -1,4 +1,23 @@
 
+{% if libvirt_qemu.migrate is defined and
+      libvirt_qemu.migrate | count > 0 %}
+  {% if libvirt_qemu.migrate.tls_x509_cert_dir is defined and
+        libvirt_qemu.migrate.tls_x509_cert_dir | string | length > 0 %}
+migrate_tls_x509_cert_dir     = "{{ libvirt_qemu.migrate.tls_x509_cert_dir }}"
+  {% endif %}
+  {% if libvirt_qemu.migrate.tls_x509_verify is defined and
+        libvirt_qemu.migrate.tls_x509_verify | string | length > 0 %}
+migrate_tls_x509_verify       = {{ libvirt_qemu.migrate.tls_x509_verify | bool | ternary('1', '0') }}
+  {% endif %}
+  {% if libvirt_qemu.migrate.tls_x509_secret_uuid is defined and
+        libvirt_qemu.migrate.tls_x509_secret_uuid | string | length > 0 %}
+migrate_tls_x509_secret_uuid  = "{{ libvirt_qemu.migrate.tls_x509_secret_uuid }}"
+  {% endif %}
+  {% if libvirt_qemu.migrate.tls_force is defined and
+        libvirt_qemu.migrate.tls_force | string | length > 0 %}
+migrate_tls_force             = {{ libvirt_qemu.migrate.tls_force | bool | ternary('1', '0') }}
+  {% endif %}
+{% endif %}
 {#
 # In order to override the default TLS certificate location for migration
 # certificates, supply a valid path to the certificate directory. If the
