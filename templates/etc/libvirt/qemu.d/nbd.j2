@@ -1,3 +1,19 @@
+
+{% if libvirt_qemu.nbd is defined and
+      libvirt_qemu.nbd | count > 0 %}
+  {% if libvirt_qemu.nbd.tls is defined and
+        libvirt_qemu.nbd.tls | string | length > 0 %}
+nbd_tls                       = {{ libvirt_qemu.nbd.tls | bool | ternary('1', '0') }}
+  {% endif %}
+  {% if libvirt_qemu.nbd.tls_x509_cert_dir is defined and
+        libvirt_qemu.nbd.tls_x509_cert_dir | string | length > 0 %}
+nbd_tls_x509_cert_dir         = "{{ libvirt_qemu.nbd.tls_x509_cert_dir }}"
+  {% endif %}
+  {% if libvirt_qemu.nbd.tls_x509_secret_uuid is defined and
+        libvirt_qemu.nbd.tls_x509_secret_uuid | string | length > 0 %}
+nbd_tls_x509_secret_uuid      = "{{ libvirt_qemu.nbd.tls_x509_secret_uuid }}"
+  {% endif %}
+{% endif %}
 {#
 # Enable use of TLS encryption for all NBD disk devices that don't
 # specifically disable it.

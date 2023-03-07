@@ -1,4 +1,23 @@
 
+{% if libvirt_qemu.chardev is defined and
+      libvirt_qemu.chardev | count > 0 %}
+  {% if libvirt_qemu.chardev.tls is defined and
+        libvirt_qemu.chardev.tls | string | length > 0 %}
+chardev_tls                   = {{ libvirt_qemu.chardev.tls | bool | ternary('1', '0') }}
+  {% endif %}
+  {% if libvirt_qemu.chardev.tls_x509_cert_dir is defined and
+        libvirt_qemu.chardev.tls_x509_cert_dir | string | length > 0 %}
+chardev_tls_x509_cert_dir     = "{{ libvirt_qemu.chardev.tls_x509_cert_dir }}"
+  {% endif %}
+  {% if libvirt_qemu.chardev.tls_x509_verify is defined and
+        libvirt_qemu.chardev.tls_x509_verify | string | length > 0 %}
+chardev_tls_x509_verify       = {{ libvirt_qemu.chardev.tls_x509_verify | bool | ternary('1', '0') }}
+  {% endif %}
+  {% if libvirt_qemu.chardev.tls_x509_secret_uuid is defined and
+        libvirt_qemu.chardev.tls_x509_secret_uuid | string | length > 0 %}
+chardev_tls_x509_secret_uuid  = "{{ libvirt_qemu.chardev.tls_x509_secret_uuid }}"
+  {% endif %}
+{% endif %}
 {#
 # Enable use of TLS encryption on the chardev TCP transports.
 #
