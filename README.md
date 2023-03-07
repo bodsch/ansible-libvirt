@@ -89,7 +89,7 @@ libvirt_libvirtd:
   # sasl_allowed_username_list: ["joe@EXAMPLE.COM", "fred@EXAMPLE.COM" ]
   # - Processing controls
   max_clients: 5000              # 5000
-  max_queued_clients: 1000       # true000
+  max_queued_clients: 1000       # 1000
   max_anonymous_clients: 20      # 20
   min_workers: 5                 # 5
   max_workers: 20                # 20
