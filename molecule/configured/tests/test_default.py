@@ -124,15 +124,19 @@ def test_files(host, files):
 def test_qemu_conf(host, get_vars):
     """
     """
-    security_driver = 'security_driver           = "none"'
-    vnc_listen      = 'vnc_listen                = "127.0.0.1"'
-
+    import re
+    security_driver = "security_driver.* = \"none\""
+    vnc_listen      = "vnc_listen .* = \"127.0.0.1\""
     config_file = host.file("/etc/libvirt/qemu.conf")
 
     assert config_file.is_file
 
-    assert security_driver in config_file.content_string
-    assert vnc_listen in config_file.content_string
+    content = config_file.content_string.split("\n")
+    reg_security_driver = re.compile(security_driver)
+    reg_vnc_listen = re.compile(vnc_listen)
+
+    assert (len(list(filter(reg_security_driver.match, content))) > 0)
+    assert (len(list(filter(reg_vnc_listen.match, content))) > 0)
 
 
 def test_libvirt_conf(host, get_vars):
