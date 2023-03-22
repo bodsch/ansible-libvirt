@@ -96,7 +96,7 @@ libvirt_libvirtd:
   prio_workers: 5                # 5
   max_requests: ""               # ?
   max_client_requests: 5         # 5
-  admin_min_workers: 1           # true
+  admin_min_workers: 1           # 1
   admin_max_workers: 5           # 5
   admin_max_clients: 5           # 5
   admin_max_queued_clients: 5    # 5
@@ -164,9 +164,65 @@ libvirt_libvirtd:
 ```yaml
 libvirt_qemu:
   default:
-    # tls_x509_cert_dir: "/etc/pki/qemu"
-    # tls_x509_verify: 1
-    # tls_x509_secret_uuid: "00000000-0000-0000-0000-000000000000"
+    tls_x509_cert_dir: ""       # "/etc/pki/qemu"
+    tls_x509_verify: ""         #  1
+    tls_x509_secret_uuid: ""    # "00000000-0000-0000-0000-000000000000"
+```
+
+#### `auto`
+
+```yaml
+libvirt_qemu:
+  auto:
+    dump_path: "/var/lib/libvirt/qemu/dump"
+    dump_bypass_cache: false
+    start_bypass_cache: false
+```
+
+#### `backup`
+
+```yaml
+libvirt_qemu:
+  backup:
+    tls_x509_cert_dir: ""       # "/etc/pki/libvirt-backup"
+    tls_x509_verify: ""         # 1
+    tls_x509_secret_uuid: ""    # "00000000-0000-0000-0000-000000000000"
+```
+
+#### `chardev`
+
+```yaml
+libvirt_qemu:
+  chardev:
+    tls: ""                   # 1
+    tls_x509_cert_dir: ""     # "/etc/pki/libvirt-chardev"
+    tls_x509_verify: ""       # 1
+    tls_x509_secret_uuid: ""  # "00000000-0000-0000-0000-000000000000"
+```
+
+#### `remote`
+
+```yaml
+libvirt_qemu:
+  remote:
+    display_port_min: 5900
+    display_port_max: 65535
+    websocket_port_min: 5700
+    websocket_port_max: 65535
+```
+
+#### `spice`
+
+```yaml
+libvirt_qemu:
+  spice:
+    listen: "0.0.0.0"
+    tls: false
+    tls_x509_cert_dir: ""     # "/etc/pki/libvirt-spice"
+    auto_unix_socket: ""      # 1
+    password: ""              # "XYZ12345"
+    sasl: ""                  # 1
+    sasl_dir: ""              # "/some/directory/sasl2"
 ```
 
 #### `vnc`
@@ -177,26 +233,13 @@ libvirt_qemu:
     listen: "127.0.0.1"
     auto_unix_socket: true
     tls: false
-    # tls_x509_cert_dir: "/etc/pki/libvirt-vnc"
-    # tls_x509_secret_uuid: "00000000-0000-0000-0000-000000000000"
-    # tls_x509_verify: true
-    # password: "XYZ12345"
-    # sasl: true
-    # sasl_dir: "/some/directory/sasl2"
-    # allow_host_audio: false
-```
-
-#### `spice`
-
-```yaml
-libvirt_qemu:
-  spice:
-    tls: false
-    # tls_x509_cert_dir: "/etc/pki/libvirt-spice"
-    # auto_unix_socket: 1
-    # password: "XYZ12345"
-    # sasl: 1
-    # sasl_dir: "/some/directory/sasl2"
+    tls_x509_cert_dir: ""     # "/etc/pki/libvirt-vnc"
+    tls_x509_secret_uuid: ""  # "00000000-0000-0000-0000-000000000000"
+    tls_x509_verify: ""       # true
+    password: ""              # "XYZ12345"
+    sasl: ""                  # true
+    sasl_dir: ""              # "/some/directory/sasl2"
+    allow_host_audio: ""      # false
 ```
 
 #### `cgroup`
@@ -374,6 +417,15 @@ libvirt_defaults_qemu:
     save_image_format: ""     # "raw"
     dump_image_format: ""     # "raw"
     snapshot_image_format: "" # "raw"
+
+  misc:
+    hugetlbfs_mounts: []
+    bridge_helper: "/usr/lib/qemu/qemu-bridge-helper"
+    set_process_name: true
+    dump_guest_core: ""       # true
+    mac_filter: ""            # true
+    relaxed_acs_check: ""     # true
+    lock_manager: ""          # "sanlock" or "lockd".
 ```
 
 ### `libvirt_virtual_networks`
