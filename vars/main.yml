@@ -119,7 +119,6 @@ libvirt_defaults_libvirtd:
   # - Open vSwitch
   ovs_timeout: ""                 # 5
 
-
 libvirt_defaults_qemu:
   default:
     tls_x509_cert_dir: ""       # "/etc/pki/qemu"
@@ -297,4 +296,6 @@ libvirt_defaults_qemu:
     #
     lock_manager: ""
 
+libvirt_defaults_network:
+  firewall_backend: "iptables"                    # nftables, iptables
 ...

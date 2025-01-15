@@ -6,6 +6,13 @@ libvirt_qemu: {}
 
 libvirt_virtual_networks: []
 
+libvirt_network: {}
+  # Supported settings:
+  #
+  #  iptables - use iptables commands to construct the firewall
+  #  nftables - use nft commands to construct the firewall
+  # firewall_backend: "iptables"
+
 libvirt_storage_pools: []
 
 ...
