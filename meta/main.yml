@@ -2,6 +2,7 @@
 
 galaxy_info:
   role_name: libvirt
+  namespace: bodsch
 
   author: Bodo Schulz
   description: libvirt role

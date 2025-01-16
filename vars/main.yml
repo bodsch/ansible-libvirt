@@ -109,8 +109,8 @@ libvirt_defaults_libvirtd:
   #
   audit_logging: true
   # - UUID of the host
-  #host_uuid = "00000000-0000-0000-0000-000000000000"
-  #host_uuid_source = "smbios"
+  # host_uuid = "00000000-0000-0000-0000-000000000000"
+  # host_uuid_source = "smbios"
   # - Keepalive protocol          #
   keepalive_interval: ""          # 5
   keepalive_count: ""             # 5
