@@ -35,9 +35,9 @@ on:
       - "!README.md"
       - "tasks/**"
 
-defaults:
-  run:
-    working-directory: 'ansible-libvirt'
+# defaults:
+#   run:
+#     working-directory: 'ansible-libvirt'
 
 jobs:
   pycodestyle:
@@ -108,7 +108,7 @@ jobs:
       - name: check out the codebase.
         uses: actions/checkout@v4
         with:
-          path: 'ansible-libvirt'
+          # path: 'ansible-libvirt'
           ref: ${{ github.event.workflow_run.head_branch }}
 
       - name: set up python
@@ -119,9 +119,12 @@ jobs:
       - name: install ansible-lint
         run: |
           python3 -m pip install ansible-lint
+          apt install tree
 
       - name: run ansible lint
-        run:
+        run: |
+          ls -la
+          tree
           ansible-lint --config-file .config/ansible-lint.yml .
 
 ...
