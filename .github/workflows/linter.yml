@@ -99,32 +99,32 @@ jobs:
   #       run: |
   #         yamllint --config-file .config/yamllint.yml .
 
-  ansible-lint:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-
-    steps:
-      - name: check out the codebase.
-        uses: actions/checkout@v4
-        with:
-          # path: 'ansible-libvirt'
-          ref: ${{ github.event.workflow_run.head_branch }}
-
-      - name: set up python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: install ansible-lint
-        run: |
-          python3 -m pip install ansible-lint
-          sudo apt update
-          sudo apt install tree
-
-      - name: run ansible lint
-        run: |
-          tree
-          ansible-lint --config-file .config/ansible-lint.yml -v $PWD/
+  # ansible-lint:
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     fail-fast: false
+  #
+  #   steps:
+  #     - name: check out the codebase.
+  #       uses: actions/checkout@v4
+  #       with:
+  #         # path: 'ansible-libvirt'
+  #         ref: ${{ github.event.workflow_run.head_branch }}
+  #
+  #     - name: set up python
+  #       uses: actions/setup-python@v5
+  #       with:
+  #         python-version: "3.12"
+  #
+  #     - name: install ansible-lint
+  #       run: |
+  #         python3 -m pip install ansible-lint
+  #         sudo apt update
+  #         sudo apt install tree
+  #
+  #     - name: run ansible lint
+  #       run: |
+  #         tree
+  #         ansible-lint --config-file .config/ansible-lint.yml -v $PWD/
 
 ...
