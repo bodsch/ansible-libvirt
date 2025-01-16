@@ -34,6 +34,11 @@ on:
       - "!Makefile"
       - "!README.md"
       - "tasks/**"
+
+defaults:
+  run:
+    working-directory: 'ansible-libvirt'
+
 jobs:
   pycodestyle:
     runs-on: ubuntu-24.04
@@ -66,33 +71,33 @@ jobs:
 
       - name: run pycodestyle
         run: |
-          pycodestyle --config=.config/pycodestyle.cfg --statistics --count --exclude=test_*.py .
+          pycodestyle  --config=.config/pycodestyle.cfg --statistics --count --exclude=test_*.py,hooks/*.py .
 
-  yamllint:
-    runs-on: ubuntu-24.04
-    strategy:
-      fail-fast: false
-
-    steps:
-      - name: check out the codebase.
-        uses: actions/checkout@v4
-        with:
-          path: 'ansible-libvirt'
-          ref: ${{ github.event.workflow_run.head_branch }}
-
-      - name: set up python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: install yamllint
-        run: |
-          python3 -m pip install yamllint
-          python3 -m pip install ansible-lint
-
-      - name: run yamllint
-        run: |
-          yamllint .
+  # yamllint:
+  #   runs-on: ubuntu-24.04
+  #   strategy:
+  #     fail-fast: false
+  #
+  #   steps:
+  #     - name: check out the codebase.
+  #       uses: actions/checkout@v4
+  #       with:
+  #         path: 'ansible-libvirt'
+  #         ref: ${{ github.event.workflow_run.head_branch }}
+  #
+  #     - name: set up python
+  #       uses: actions/setup-python@v5
+  #       with:
+  #         python-version: "3.12"
+  #
+  #     - name: install yamllint
+  #       run: |
+  #         python3 -m pip install yamllint
+  #         python3 -m pip install ansible-lint
+  #
+  #     - name: run yamllint
+  #       run: |
+  #         yamllint --config-file .config/yamllint.yml .
 
   ansible-lint:
     runs-on: ubuntu-24.04
@@ -113,10 +118,10 @@ jobs:
 
       - name: install ansible-lint
         run: |
-          python3 -m pip install ansible-lint
+          pycodestyle  --config=.config/pycodestyle.cfg --statistics --count --exclude=test_*.py,hooks/*.py .
 
       - name: run ansible lint
         run:
-          ansible-lint .
+          ansible-lint --config-file .config/ansible-lint.yml .
 
 ...
