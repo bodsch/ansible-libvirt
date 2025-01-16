@@ -108,7 +108,7 @@ jobs:
       - name: check out the codebase.
         uses: actions/checkout@v4
         with:
-          # path: 'ansible-libvirt'
+          path: 'ansible-libvirt'
           ref: ${{ github.event.workflow_run.head_branch }}
 
       - name: set up python
@@ -124,7 +124,7 @@ jobs:
 
       - name: run ansible lint
         run: |
-          ls -la
+          pwd
           tree
           ansible-lint --config-file .config/ansible-lint.yml .
 
