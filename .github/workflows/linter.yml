@@ -124,8 +124,7 @@ jobs:
 
       - name: run ansible lint
         run: |
-          pwd
           tree
-          ansible-lint --config-file .config/ansible-lint.yml .
+          ansible-lint --config-file .config/ansible-lint.yml -v $PWD/
 
 ...

@@ -3,5 +3,6 @@
 skip_list:
   - name[casing]
   - name[template]
+  - schema[galaxy]
   # - args[module]
   - role-name
