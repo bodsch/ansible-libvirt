@@ -118,7 +118,7 @@ jobs:
 
       - name: install ansible-lint
         run: |
-          pycodestyle  --config=.config/pycodestyle.cfg --statistics --count --exclude=test_*.py,hooks/*.py .
+          python3 -m pip install ansible-lint
 
       - name: run ansible lint
         run:
