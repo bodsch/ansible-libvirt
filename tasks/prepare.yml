@@ -58,9 +58,4 @@
     - _dependencies is defined
     - _dependencies.changed
 
-- name: merge libvirt config configuration between defaults and custom
-  ansible.builtin.set_fact:
-    libvirt_libvirtd: "{{ libvirt_defaults_libvirtd | combine(libvirt_libvirtd, recursive=True) }}"
-    libvirt_qemu: "{{ libvirt_defaults_qemu | combine(libvirt_qemu, recursive=True) }}"
-
 ...
