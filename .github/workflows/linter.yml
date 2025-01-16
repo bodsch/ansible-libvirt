@@ -119,8 +119,8 @@ jobs:
       - name: install ansible-lint
         run: |
           python3 -m pip install ansible-lint
-          apt update
-          apt install tree
+          sudo apt update
+          sudo apt install tree
 
       - name: run ansible lint
         run: |
