@@ -53,7 +53,7 @@ jobs:
       - name: check out the codebase.
         uses: actions/checkout@v4
         with:
-          path: 'ansible-libvirt'
+          # path: 'ansible-libvirt'
           ref: ${{ github.event.workflow_run.head_branch }}
 
       - name: set up python
@@ -119,6 +119,7 @@ jobs:
       - name: install ansible-lint
         run: |
           python3 -m pip install ansible-lint
+          apt update
           apt install tree
 
       - name: run ansible lint
