@@ -36,12 +36,11 @@ on:
       - "tasks/**"
 jobs:
   pycodestyle:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
         python_version:
-          - "3.10"
           - "3.11"
           - "3.12"
 
@@ -49,6 +48,7 @@ jobs:
       - name: check out the codebase.
         uses: actions/checkout@v4
         with:
+          path: 'ansible-libvirt'
           ref: ${{ github.event.workflow_run.head_branch }}
 
       - name: set up python
@@ -69,7 +69,7 @@ jobs:
           pycodestyle --config=.config/pycodestyle.cfg --statistics --count --exclude=test_*.py .
 
   yamllint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
 
@@ -77,6 +77,7 @@ jobs:
       - name: check out the codebase.
         uses: actions/checkout@v4
         with:
+          path: 'ansible-libvirt'
           ref: ${{ github.event.workflow_run.head_branch }}
 
       - name: set up python
@@ -94,7 +95,7 @@ jobs:
           yamllint .
 
   ansible-lint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
 
@@ -102,6 +103,7 @@ jobs:
       - name: check out the codebase.
         uses: actions/checkout@v4
         with:
+          path: 'ansible-libvirt'
           ref: ${{ github.event.workflow_run.head_branch }}
 
       - name: set up python
