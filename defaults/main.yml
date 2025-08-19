@@ -1,5 +1,38 @@
 ---
 
+# https://libvirt.org/daemons.html#monolithic-vs-modular-daemons
+libvirt_services:
+  # monolitic
+  libvirtd:
+    enabled: true
+  # modular
+  chd:
+    enabled: false
+  interfaced:
+    enabled: false
+  lockd:
+    enabled: false
+  logd:
+    enabled: false
+  lxcd:
+    enabled: false
+  networkd:
+    enabled: false
+  nodedevd:
+    enabled: false
+  nwfilterd:
+    enabled: false
+  proxyd:
+    enabled: false
+  qemud:
+    enabled: false
+  secretd:
+    enabled: false
+  storaged:
+    enabled: false
+  vboxd:
+    enabled: false
+
 libvirt_libvirtd: {}
 
 libvirt_qemu: {}
